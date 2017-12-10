@@ -1,0 +1,54 @@
+<h1>Assignments</h1>
+<h3 *ngIf="assignmentIdToUpdate; else create"> 
+   Update Assignment for Id: {{assignmentIdToUpdate}}
+</h3>
+<ng-template #create>
+   <h3> Create New Assignment </h3>
+</ng-template>
+<div>
+ <form [formGroup]="assignmentForm" (ngSubmit)="onAssignmentFormSubmit()">
+  <table>
+    <tr><td>Enter Title</td><td><input formControlName="title">
+	       <label *ngIf="assignmentForm.get('title').invalid && processValidation" [ngClass] = "'error'"> Title is required. </label>
+   	</td></tr>
+    <tr><td>Enter Subject</td><td><input formControlName="subject">
+	       <label *ngIf="articleForm.get('category').invalid && processValidation" [ngClass] = "'error'"> Subject is required. </label>
+	</td></tr>	
+    <tr><td colspan="2">
+	    <button *ngIf="!assignmentIdToUpdate">CREATE</button>  
+		<button *ngIf="assignmentIdToUpdate">UPDATE</button>  
+	    <button (click)="backToCreateArticle()" *ngIf="assignmentIdToUpdate">Go Back</button>  
+	</td></tr>
+  </table>
+ </form> 
+ <br/>
+ <div *ngIf="statusCode; else processing">
+   <div *ngIf="statusCode === 201" [ngClass] = "'success'">
+	    Assignment added successfully.
+   </div>   
+   <div *ngIf="statusCode === 409" [ngClass] = "'success'">
+        Assignment already exists.
+   </div>   	
+   <div *ngIf="statusCode === 200" [ngClass] = "'success'">
+        Assignment updated successfully.
+   </div>   	      
+   <div *ngIf="statusCode === 204" [ngClass] = "'success'">
+        Assignment deleted successfully.
+   </div>   	   
+   <div *ngIf="statusCode === 500" [ngClass] = "'error'">
+        Internal Server Error.
+   </div>	
+ </div>
+ <ng-template #processing>
+	<img *ngIf="requestProcessing" src="assets/images/loading.gif">
+ </ng-template>
+</div>
+<h3>Assignment Details</h3>
+<table>
+  <tr><th> Id</th> <th>Title</th><th>Subject</th><th></th><th></th></tr>
+  <tr *ngFor="let assignment of allAssignments" >
+    <td>{{assignment.id}}</td> <td>{{assignment.title}}</td> <td>{{assignment.subject}}</td>
+	<td><button type="button" (click)="loadArticleToEdit(assignment.id)">Edit</button> </td> 
+	<td><button type="button" (click)="deleteArticle(assignment.id)">Delete</button></td>
+  </tr>
+</table>
