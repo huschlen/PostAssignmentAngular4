@@ -1,4 +1,4 @@
-package com.core.entity;
+package com.assignment.core.entity;
 
 import java.io.Serializable;
 
