@@ -6,7 +6,7 @@ public interface IAssignmentDao {
 
 	void addAssignment(Assignment asignment);
     Assignment getAssignmentById(int assignmentId);
-    void updateAssignment();
+    void updateAssignment(Assignment assignment);
     void deleteAssignment(Assignment assignment);
 
 }
